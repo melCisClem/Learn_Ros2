@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <world name="test_room">
+
+    <!-- Systems: physics, GUI commands, scene updates, and SENSORS (needed for the lidar) -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- A 4m x 4m room: four walls + one box, so the lidar has something to see -->
+    <model name="room">
+      <static>true</static>
+
+      <link name="north_wall">
+        <pose>0 1.5 0.25 0 0 0</pose>
+        <collision name="c"><geometry><box><size>3.1 0.1 0.5</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>3.1 0.1 0.5</size></box></geometry></visual>
+      </link>
+
+      <link name="south_wall">
+        <pose>0 -1.5 0.25 0 0 0</pose>
+        <collision name="c"><geometry><box><size>3.1 0.1 0.5</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>3.1 0.1 0.5</size></box></geometry></visual>
+      </link>
+
+      <link name="east_wall">
+        <pose>1.5 0 0.25 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.1 3.1 0.5</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.1 3.1 0.5</size></box></geometry></visual>
+      </link>
+
+      <link name="west_wall">
+        <pose>-1.5 0 0.25 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.1 3.1 0.5</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.1 3.1 0.5</size></box></geometry></visual>
+      </link>
+
+      <link name="box">
+        <pose>1 0 0.2 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.4 0.4 0.4</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>0.4 0.4 0.4</size></box></geometry>
+          <material><ambient>0.8 0.5 0.2 1</ambient><diffuse>0.8 0.5 0.2 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

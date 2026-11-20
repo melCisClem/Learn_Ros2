@@ -1,0 +1,15 @@
+services:
+  ros:
+    build: .
+    image: roomba-ros:jazzy
+    container_name: roomba
+    network_mode: host
+    ipc: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./ros2_ws:/ros2_ws
+    stdin_open: true
+    tty: true
